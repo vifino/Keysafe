@@ -21,6 +21,7 @@
 *.dylib
 
 # Executables
+keysafe
 *.exe
 *.out
 *.app
@@ -30,3 +31,7 @@
 
 # Debug files
 *.dSYM/
+
+# Vim Files
+# *.un~
+# *.swp
