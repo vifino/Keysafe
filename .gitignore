@@ -3,6 +3,7 @@
 *.ko
 *.obj
 *.elf
+/obj
 
 # Precompiled Headers
 *.gch
@@ -21,7 +22,7 @@
 *.dylib
 
 # Executables
-keysafe
+/keysafe
 *.exe
 *.out
 *.app
@@ -33,5 +34,5 @@ keysafe
 *.dSYM/
 
 # Vim Files
-# *.un~
-# *.swp
+*.un~
+*.swp

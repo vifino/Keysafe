@@ -4,14 +4,12 @@ CFLAGS=-I$(IDIR) -Os
 TRG = keysafe
 
 OBJECTDIR=obj
-$(shell mkdir -p $(OBJECTDIR)/src)
 
 LDIR =../lib
 
-LIBS=-l bcm2835
+LIBS= -l bcm2835
 
-PRJSRC = $(wildcard *.c)
-CFILES=$(filter %.c, $(PRJSRC))
+CFILES = $(wildcard src/*.c)
 
 # List all object files we need to create
 _OBJDEPS=$(CFILES:.c=.o)
@@ -22,14 +20,22 @@ $(OBJECTDIR)/%.o: %.c $(DEPS)
 
 all: safe
 
-safe: $(OBJDEPS) 
+preenv:
+	@if [ ! -d $(OBJECTDIR) ]; then \
+		echo mkdir $(OBJECTDIR); \
+		mkdir $(OBJECTDIR); \
+	fi
+
+safe: preenv $(OBJDEPS) 
 	$(CC) -o $(TRG) $(wildcard $(OBJECTDIR)/*.o) -lm $(LIBS)
 
-.c.o:
+%.o: %.c
 	@echo ------------------------------------------------------------
 	@echo Compile c: $<
 	@echo ------------------------------------------------------------
 	$(dir_guard)
-	$(CC) $(CFLAGS) -c $< -o $(OBJECTDIR)/$@ 
+	$(CC) $(CFLAGS) -c $< -o $(patsubst src/%, $(OBJECTDIR)/%, $@)
 
+clean:
+	rm -rf $(TRG) $(OBJECTDIR)
 .PHONY: clean
